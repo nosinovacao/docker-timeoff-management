@@ -29,11 +29,11 @@ else
 	SMTP_PASSWORD=password
 fi
 
-if [[ -e /opt/crypto_secret ]]; then
-	CRYPTO_SECRET=$(cat /opt/crypto_secret)
+if [[ -e /home/crypto_secret ]]; then
+	CRYPTO_SECRET=$(cat /home/crypto_secret)
 else
-	echo -n $(tr -dc A-Za-z0-9_\#\(\)\!: < /dev/urandom | head -c 40 | xargs) > /opt/crypto_secret
-	CRYPTO_SECRET=$(cat /opt/crypto_secret)
+	echo -n $(tr -dc A-Za-z0-9_\#\(\)\!: < /dev/urandom | head -c 40 | xargs) > /home/crypto_secret
+	CRYPTO_SECRET=$(cat /home/crypto_secret)
 fi
 
 if [[ -z $APP_URL ]]; then
@@ -47,7 +47,7 @@ if [[ -z $ALLOW_ACCOUNTS_CREATION ]]; then
 	ALLOW_ACCOUNTS_CREATION=true
 fi
 
-cat > /opt/db.json << EOF
+cat > /home/db.json << EOF
 {
   "development": {
     "username": "root",
@@ -68,7 +68,7 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 	if [[ -z $MYSQL_DATABASE ]]; then
 		MYSQL_DATABASE="timeoffmanagement"
 	fi
-	cat >> /opt/db.json << EOF
+	cat >> /home/db.json << EOF
   "production": {
     "username": "$MYSQL_USER",
     "password": "$MYSQL_PASSWORD",
@@ -79,7 +79,7 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 }
 EOF
 else
-   cat >> /opt/db.json << EOF
+   cat >> /home/db.json << EOF
    "production": {
 	"dialect": "sqlite",
 	"storage": "./db.production.sqlite"
@@ -88,7 +88,7 @@ else
 EOF
 fi
 
-cat > /opt/app.json << EOF
+cat > /home/app.json << EOF
 {
   "allow_create_new_accounts" : $ALLOW_ACCOUNTS_CREATION,
   "send_emails"              : $SEND_MAILS,
@@ -107,7 +107,7 @@ cat > /opt/app.json << EOF
 }
 EOF
 
-mv /opt/. /app/timeoff-management/config/ 
+mv /home/. /app/timeoff-management/config/ 
 
 npm run-script db-update
 npm start
