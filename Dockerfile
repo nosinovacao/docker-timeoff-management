@@ -23,7 +23,7 @@ RUN npm install mysql && npm install --production
 FROM alpine:3.6
 
 #Install npm 
-RUN apk add --update nodejs-npm
+RUN apk add --update nodejs-npm bash
 
 WORKDIR /app/timeoff-management
 #Copy files from first stage
