@@ -29,11 +29,11 @@ else
 	SMTP_PASSWORD=password
 fi
 
-if [[ -e /app/timeoff-management/config/crypto_secret ]]; then
-	CRYPTO_SECRET=$(cat /app/timeoff-management/config/crypto_secret)
+if [[ -e /opt/crypto_secret ]]; then
+	CRYPTO_SECRET=$(cat /opt/crypto_secret)
 else
-	echo -n $(tr -dc A-Za-z0-9_\#\(\)\!: < /dev/urandom | head -c 40 | xargs) > /app/timeoff-management/config/crypto_secret
-	CRYPTO_SECRET=$(cat /app/timeoff-management/config/crypto_secret)
+	echo -n $(tr -dc A-Za-z0-9_\#\(\)\!: < /dev/urandom | head -c 40 | xargs) > /opt/crypto_secret
+	CRYPTO_SECRET=$(cat /opt/crypto_secret)
 fi
 
 if [[ -z $APP_URL ]]; then
@@ -47,7 +47,7 @@ if [[ -z $ALLOW_ACCOUNTS_CREATION ]]; then
 	ALLOW_ACCOUNTS_CREATION=true
 fi
 
-cat > /app/timeoff-management/config/db.json << EOF
+cat > /opt/db.json << EOF
 {
   "development": {
     "username": "root",
@@ -68,7 +68,7 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 	if [[ -z $MYSQL_DATABASE ]]; then
 		MYSQL_DATABASE="timeoffmanagement"
 	fi
-	cat >> /app/timeoff-management/config/db.json << EOF
+	cat >> /opt/db.json << EOF
   "production": {
     "username": "$MYSQL_USER",
     "password": "$MYSQL_PASSWORD",
@@ -79,7 +79,7 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 }
 EOF
 else
-   cat >> /app/timeoff-management/config/db.json << EOF
+   cat >> /opt/db.json << EOF
    "production": {
 	"dialect": "sqlite",
 	"storage": "./db.production.sqlite"
@@ -88,7 +88,7 @@ else
 EOF
 fi
 
-cat > /app/timeoff-management/config/app.json << EOF
+cat > /opt/app.json << EOF
 {
   "allow_create_new_accounts" : $ALLOW_ACCOUNTS_CREATION,
   "send_emails"              : $SEND_MAILS,
@@ -107,73 +107,7 @@ cat > /app/timeoff-management/config/app.json << EOF
 }
 EOF
 
-cat > /app/timeoff-management/config/app.json << EOF
-{
-  "countries" : {
-    "PT": {
-      "name": "Portugal",
-      "bank_holidays": [
-        {
-          "date": "2018-01-01",
-          "name": "Ano Novo"
-        },
-        {
-          "date": "2018-03-30",
-          "name": "Sexta-Feira Santa"
-        },
-        {
-          "date": "2018-04-01",
-          "name": "Páscoa"
-        },
-        {
-          "date": "2018-04-25",
-          "name": "Dia da Liberdade"
-        },
-        {
-          "date": "2018-05-01",
-          "name": "Dia do trabalhador"
-        },
-        {
-          "date": "2018-05-31",
-          "name": "Corpo de Deus"
-        },
-        {
-          "date": "2018-06-10",
-          "name": "Dia de Portugal"
-        },
-        {
-          "date": "2018-06-12",
-          "name": "Santo António"
-        },
-        {
-          "date": "2018-08-15",
-          "name": "Assunção"
-        },
-        {
-          "date": "2018-10-05",
-          "name": "Implantação da República"
-        },
-        {
-          "date": "2018-11-01",
-          "name": "Todos os santos"
-        },
-        {
-          "date": "2018-12-01",
-          "name": "Restauração da Independência"
-        },
-        {
-          "date": "2018-12-08",
-          "name": "Imaculada Conceição"
-        },
-        {
-          "date": "2018-12-25",
-          "name": "Natal"
-        }
-      ]
-    }
-  }  
-}
-EOF
+mv /opt/. /app/timeoff-management/config/ 
 
 npm run-script db-update
 npm start
