@@ -5,6 +5,9 @@ Docker implementation of the timeoff-management project
 # Using Dockerfile
 
 By default timeoff-management use sqlite and no smtp server configured. 
+
+
+
 To change default configurations use **environment variables**. 
 
 | Var Name | Possible values|
@@ -22,7 +25,7 @@ To change default configurations use **environment variables**.
 ### Build and run docker image 
 
 _Build_:
-> docker build -t timeoff . 
+> $ docker build -t timeoff . 
 
 _Run_:
-> docker run -e NODE_ENV=production -e MYSQL_USER=timeoff timeoff
+> $ docker run -e NODE_ENV=production -e MYSQL_USER=timeoff timeoff
