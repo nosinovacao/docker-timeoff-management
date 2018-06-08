@@ -55,14 +55,15 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 		MYSQL_DATABASE="timeoffmanagement"
 	fi
 	cat > /app/timeoff-management/config/db.json << EOF
-  "production": {
-    "username": "$MYSQL_USER",
-    "password": "$MYSQL_PASSWORD",
-    "database": "$MYSQL_DATABASE",
-    "host": "$MYSQL_HOST",
-    "dialect": "mysql"
+  {
+    "production": {
+      "username": "$MYSQL_USER",
+      "password": "$MYSQL_PASSWORD",
+      "database": "$MYSQL_DATABASE",
+      "host": "$MYSQL_HOST",
+      "dialect": "mysql"
+    }
   }
-}
 EOF
 else
    cat > /app/timeoff-management/config/db.json << EOF
