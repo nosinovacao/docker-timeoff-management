@@ -1,4 +1,7 @@
 #!/bin/bash
+SRC_DIR=~"/home/"
+DST_DIR=~"/app/timeoff-management/config/"
+
 if [[ -z $NODE_ENV ]]; then
 	export NODE_ENV=production
 fi
@@ -107,7 +110,7 @@ cat > /home/app.json << EOF
 }
 EOF
 
-mv /home/. /app/timeoff-management/config/ 
+cp -a "$SRC_DIR/." "$DST_DIR"
 
 npm run-script db-update
 npm start
