@@ -23,7 +23,7 @@ RUN npm install mysql && npm install --production
 FROM alpine:3.6
 
 #Install npm 
-RUN apk add --update nodejs-npm bash
+RUN apk add --update nodejs-npm
 
 WORKDIR /app/timeoff-management
 #Copy files from first stage
@@ -32,4 +32,4 @@ COPY --from=base /app/timeoff-management/ /app/timeoff-management
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 
 EXPOSE 3000
-ENTRYPOINT ["bash","/docker-entrypoint.sh"]
+ENTRYPOINT ["sh","/docker-entrypoint.sh"]
