@@ -110,7 +110,7 @@ cat > /home/app.json << EOF
 }
 EOF
 
-cp -a "$SRC_DIR/." "$DST_DIR"
+cp -a "$SRC_DIR." "$DST_DIR"
 
 npm run-script db-update
 npm start
