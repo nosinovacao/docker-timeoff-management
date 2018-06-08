@@ -1,6 +1,6 @@
 #!/bin/bash
-SRC_DIR=~"/home/"
-DST_DIR=~"/app/timeoff-management/config/"
+#SRC_DIR="/home/"
+#DST_DIR="/app/timeoff-management/config/"
 
 if [[ -z $NODE_ENV ]]; then
 	export NODE_ENV=production
@@ -32,11 +32,11 @@ else
 	SMTP_PASSWORD=password
 fi
 
-if [[ -e /home/crypto_secret ]]; then
-	CRYPTO_SECRET=$(cat /home/crypto_secret)
+if [[ -e /app/timeoff-management/config/crypto_secret ]]; then
+	CRYPTO_SECRET=$(cat /app/timeoff-management/config/crypto_secret)
 else
-	echo -n $(tr -dc A-Za-z0-9_\#\(\)\!: < /dev/urandom | head -c 40 | xargs) > /home/crypto_secret
-	CRYPTO_SECRET=$(cat /home/crypto_secret)
+	echo -n $(tr -dc A-Za-z0-9_\#\(\)\!: < /dev/urandom | head -c 40 | xargs) > /app/timeoff-management/config/crypto_secret
+	CRYPTO_SECRET=$(cat /app/timeoff-management/config/crypto_secret)
 fi
 
 if [[ -z $APP_URL ]]; then
@@ -50,28 +50,11 @@ if [[ -z $ALLOW_ACCOUNTS_CREATION ]]; then
 	ALLOW_ACCOUNTS_CREATION=true
 fi
 
-cat > /home/db.json << EOF
-{
-  "development": {
-    "username": "root",
-    "password": null,
-    "database": "dev_db",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "test_db",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-},
-EOF
 if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 	if [[ -z $MYSQL_DATABASE ]]; then
 		MYSQL_DATABASE="timeoffmanagement"
 	fi
-	cat >> /home/db.json << EOF
+	cat > /app/timeoff-management/config/db.json << EOF
   "production": {
     "username": "$MYSQL_USER",
     "password": "$MYSQL_PASSWORD",
@@ -82,7 +65,7 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 }
 EOF
 else
-   cat >> /home/db.json << EOF
+   cat > /app/timeoff-management/config/db.json << EOF
    "production": {
 	"dialect": "sqlite",
 	"storage": "./db.production.sqlite"
@@ -91,7 +74,7 @@ else
 EOF
 fi
 
-cat > /home/app.json << EOF
+cat > /app/timeoff-management/config/app.json << EOF
 {
   "allow_create_new_accounts" : $ALLOW_ACCOUNTS_CREATION,
   "send_emails"              : $SEND_MAILS,
@@ -110,7 +93,7 @@ cat > /home/app.json << EOF
 }
 EOF
 
-cp -a "$SRC_DIR." "$DST_DIR"
+#cp -a "$SRC_DIR." "$DST_DIR"
 
 npm run-script db-update
 npm start
