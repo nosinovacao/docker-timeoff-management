@@ -4,7 +4,13 @@ if [[ -z $NODE_ENV ]]; then
 	export NODE_ENV=production
 fi
 
-if [[ -n $SENDER_MAIL ]]; then
+if [[ -z $SENDER_MAIL ]]; then
+	SEND_MAILS=false
+	SMTP_HOST="localhost"
+	SMTP_PORT=25
+	SMTP_USER=user
+	SMTP_PASSWORD=password
+else
 	SEND_MAILS=true
 	if [[ -z $SMTP_HOST ]]; then
 		echo "You need to configure the SMTP_HOST variable to enable mails sending"
@@ -22,12 +28,6 @@ if [[ -n $SENDER_MAIL ]]; then
 		echo "You need to configure the SMTP_PASSWORD variable to enable mails sending"
 		SEND_MAILS=false
 	fi
-else
-	SEND_MAILS=false
-	SMTP_HOST="localhost"
-	SMTP_PORT=25
-	SMTP_USER=user
-	SMTP_PASSWORD=password
 fi
 
 if [[ -e /app/timeoff-management/config/crypto_secret ]]; then
