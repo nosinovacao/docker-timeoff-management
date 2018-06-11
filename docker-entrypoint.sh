@@ -91,6 +91,8 @@ cat > /app/timeoff-management/config/app.json << EOF
   "promotion_website_domain" : "$PROMOTION_URL"
 }
 EOF
+echo "========= PRINTING CONFIGURATION ========="
+cat /app/timeoff-management/config/app.json
 
 npm run-script db-update
 npm start
