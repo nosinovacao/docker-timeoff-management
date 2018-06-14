@@ -1,5 +1,5 @@
 # This is the base for our build step container
-FROM node:6-alpine AS base
+FROM node:9-alpine AS base
 
 #Environment var to set pull request version 
 ENV PR_NUMBER 285
