@@ -22,6 +22,17 @@ To change default configurations use **environment variables**.
 | **PROMOTION_URL** | http://timeoff.management |
 | **ALLOW_ACCOUNTS_CREATION** | true , false |
 
+## Tags
+
+Tags are written using the following pattern: `timeoff-management:<year>.<month>.<revision>`
+
+* timeoff-management:18.09.0
+* timeoff-management:18.07.0
+* timeoff-management:18.03.1
+* timeoff-management:18.03.0
+
+More info on docker hub: <https://hub.docker.com/r/nosinovacao/timeoff-management/>
+
 ### Build and run docker image 
 
 _Build_:
