@@ -12,9 +12,6 @@ WORKDIR /app
 RUN git clone https://github.com/timeoff-management/application.git timeoff-management
 
 WORKDIR /app/timeoff-management
-# Checkout to a Pull Request
-RUN git fetch origin pull/${PR_NUMBER}/head:pr_${PR_NUMBER} \
-    && git checkout pr_${PR_NUMBER}
 
 #Install dependencies    
 RUN npm install mysql && npm install --production 
