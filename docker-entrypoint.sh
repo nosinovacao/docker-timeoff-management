@@ -65,11 +65,12 @@ if [[ -n $MYSQL_HOST && -n $MYSQL_USER && -n $MYSQL_PASSWORD ]]; then
 EOF
 else
    cat > /app/timeoff-management/config/db.json << EOF
-   "production": {
-	"dialect": "sqlite",
+   {
+     "production": {
+        "dialect": "sqlite",
 	"storage": "./db.production.sqlite"
-   }
-}
+     }
+  }
 EOF
 fi
 
