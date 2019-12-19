@@ -12,7 +12,7 @@ To change default configurations use **environment variables**.
 
 | Var Name | Possible values|
 | -------- | ------ |
-| **NODE_ENV** | developement(default), test, production |
+| **NODE_ENV** | development(default), test, production |
 | **SENDER_MAIL** | email address |
 | **SMTP_HOST** | host |
 | **SMTP_PORT** | port |
