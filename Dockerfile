@@ -31,4 +31,4 @@ COPY scripts/20190118-chnage-type-value-for-api-token.js /app/timeoff-management
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 
 EXPOSE 3000
-# ENTRYPOINT ["sh","/docker-entrypoint.sh"]
+ENTRYPOINT ["sh","/docker-entrypoint.sh"]
