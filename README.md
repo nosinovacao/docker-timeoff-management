@@ -2,13 +2,11 @@
 
 Docker implementation of the timeoff-management project
 
-# Using Dockerfile
+## Using Dockerfile
 
-By default timeoff-management use sqlite and no smtp server configured. 
+By default timeoff-management use sqlite and no smtp server configured.
 
-
-
-To change default configurations use **environment variables**. 
+To change default configurations use **environment variables**.
 
 | Var Name | Possible values|
 | -------- | ------ |
@@ -18,8 +16,8 @@ To change default configurations use **environment variables**.
 | **SMTP_PORT** | port |
 | **SMTP_USER** | username/address |
 | **SMTP_PASSWORD** | password |
-| **APP_URL** | http://app.timeoff.management (default) |
-| **PROMOTION_URL** | http://timeoff.management |
+| **APP_URL** | <http://app.timeoff.management> (default) |
+| **PROMOTION_URL** | <http://timeoff.management> |
 | **ALLOW_ACCOUNTS_CREATION** | true , false |
 
 ## Tags
@@ -33,10 +31,10 @@ Tags are written using the following pattern: `timeoff-management:<year>.<month>
 
 More info on docker hub: <https://hub.docker.com/r/nosinovacao/timeoff-management/>
 
-### Build and run docker image 
+### Build and run docker image
 
 _Build_:
-> $ docker build -t timeoff . 
+> $ docker build -t timeoff .
 
 _Run_:
 > $ docker run -e NODE_ENV=production -e MYSQL_USER=timeoff timeoff
