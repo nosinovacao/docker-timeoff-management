@@ -1,12 +1,12 @@
 # This is the base for our build step container
-FROM node:9-alpine AS base
+FROM node:10-alpine AS base
 
 # Install dependencies
-RUN apk add --no-cache git make python
+RUN apk add --no-cache git
 
 # Create and change to workdir
 WORKDIR /app
-RUN git clone https://github.com/timeoff-management/application.git timeoff-management
+RUN git clone --branch 1.0.0 https://github.com/timeoff-management/application.git timeoff-management
 
 WORKDIR /app/timeoff-management
 
@@ -14,7 +14,7 @@ WORKDIR /app/timeoff-management
 RUN npm install mysql && npm install --production
 
 # This is our runtime container
-FROM alpine:3.8
+FROM alpine:3.10
 
 # Install npm
 RUN apk add --update nodejs npm
@@ -31,4 +31,4 @@ COPY scripts/20190118-chnage-type-value-for-api-token.js /app/timeoff-management
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 
 EXPOSE 3000
-ENTRYPOINT ["sh","/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
