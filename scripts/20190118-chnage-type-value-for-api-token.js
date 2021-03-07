@@ -3,41 +3,22 @@
 const models = require("../lib/model/db");
 
 module.exports = {
-  up: function(queryInterface, Sequelize) {
-    return queryInterface.describeTable("Companies").then(attributes => {
+  up: function (queryInterface, Sequelize) {
+    return queryInterface.describeTable("Companies").then((attributes) => {
       if (attributes.integration_api_token.type === "UUID") {
         return 1;
       }
 
-      return (
-        queryInterface
-          // Create Temp Compaies based on current model definitiom
-          .createTable("Companies_backup", models.Company.attributes)
-          .then(() =>
-            queryInterface.sequelize.query("SET FOREIGN_KEY_CHECKS=0;")
-          )
-          .then(() =>
-            queryInterface.sequelize.query(
-              "INSERT INTO `Companies_backup` (`id`,`name`,`country`,`start_of_new_year`,`createdAt`,`updatedAt`,share_all_absences,ldap_auth_enabled,ldap_auth_config,`date_format`,`company_wide_message`,`mode`,`timezone`,`integration_api_token`,`integration_api_enabled`,`carry_over`) SELECT `id`,`name`,`country`,`start_of_new_year`,`createdAt`,`updatedAt`,share_all_absences,ldap_auth_enabled,ldap_auth_config,`date_format`,`company_wide_message`,`mode`,`timezone`,`integration_api_token`,`integration_api_enabled`,`carry_over` FROM `" +
-                models.Company.tableName +
-                "`"
-            )
-          )
-          .then(() => queryInterface.dropTable(models.Company.tableName))
-          .then(() =>
-            queryInterface.renameTable(
-              "Companies_backup",
-              models.Company.tableName
-            )
-          )
-          .then(() => queryInterface.sequelize.query("SET FOREIGN_KEY_CHECKS=1;"))
-          .then(() => queryInterface.addIndex(models.Company.tableName, ["id"]))
+      return queryInterface.changeColumn(
+        "Companies",
+        "integration_api_token",
+        models.Company.attributes.integration_api_token
       );
     });
   },
 
-  down: function(queryInterface, Sequelize) {
+  down: function (queryInterface, Sequelize) {
     // No way back!
     return Promise.resolve();
-  }
+  },
 };
