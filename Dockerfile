@@ -1,12 +1,12 @@
 # This is the base for our build step container
-FROM node:12-alpine AS base
+FROM node:13-alpine AS base
 
 # Install dependencies
 RUN apk add --no-cache git
 
 # Create and change to workdir
 WORKDIR /app
-RUN git clone --branch 1.1.1 https://github.com/timeoff-management/application.git timeoff-management
+RUN git clone --branch 1.3.4 https://github.com/timeoff-management/application.git timeoff-management
 
 WORKDIR /app/timeoff-management
 
@@ -18,7 +18,7 @@ RUN npm install mysql && npm install --unsafe-perm --production
 COPY scripts/20190118-chnage-type-value-for-api-token.js /app/timeoff-management/migrations/
 
 # This is our runtime container
-FROM alpine:3.12
+FROM alpine:3.13
 
 # Install npm
 RUN apk add --update nodejs npm
