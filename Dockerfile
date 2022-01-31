@@ -1,6 +1,9 @@
 # This is the base for our build step container
 FROM node:13-alpine AS base
 
+# Environment var to set pull request version
+ENV PR_NUMBER 504
+
 # Install dependencies
 RUN apk add --no-cache git
 
@@ -9,6 +12,10 @@ WORKDIR /app
 RUN git clone --branch 1.3.4 https://github.com/timeoff-management/application.git timeoff-management
 
 WORKDIR /app/timeoff-management
+
+# Checkout to the pull request
+RUN git fetch origin pull/${PR_NUMBER}/head:pr_${PR_NUMBER} \
+    && git checkout pr_${PR_NUMBER}
 
 # Install dependencies
 RUN npm install mysql && npm install --unsafe-perm --production
